@@ -1,0 +1,77 @@
+\documentclass[a4paper]{article}
+
+\usepackage{emposter}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+\title{%
+Predicting composite ultimate failure with support vector machines:\\ a comparison of classical and quantum kernels%
+}
+\author{%
+G.\ Tosti Balducci$^1$, B.\ Chen$^1$,
+M.\ M\"{o}ller$^3$, M.\ Gerritsma$^2$,
+R. de Breuker$^1$%
+}
+\affiliation{%
+$^1$ TU Delft, Aerospace Structures and Materials\\%
+$^2$ TU Delft, Flow Physics and Technology\\%
+$^3$ TU Delft, Applied Mathematics%
+}
+
+\university{\includegraphics[height=1.2\logoheight]{tudelft_logos/TUDelft_logo_black.eps}}
+\rightlogo{}
+\progresstype{PhD} % MSc, PhD, or PostDoc
+\progresssections{4} % number of progress sections (years)
+\progressfraction{3.8/4} % fraction of the bar to be filled
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+\begin{multicols}{2}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =============================================================================
+\section{Introduction}
+% =============================================================================
+
+\begin{itemize}
+  \item why using data-based substructures?
+  \item prototypical substructures (OHCP)
+  \begin{itemize}
+    \item symmetric, quasi-isotropic
+  \end{itemize}
+\end{itemize}
+
+% =============================================================================
+\section{SVM and kernels}
+% =============================================================================
+
+SVM equation; kernels in the svm equation; RBF kernel; quantum kernels; kernel-target alignment.
+
+% =============================================================================
+\section{Results}
+% =============================================================================
+
+test accuracy vs C (pre-/post-alignment)
+
+% =============================================================================
+\section{Open questions}
+% =============================================================================
+
+tbd
+
+% =============================================================================
+% references
+% =============================================================================
+
+\begin{thebibliography}{99}
+\bibitem{lipsum}
+  http://www.lipsum.com/feed/html
+\end{thebibliography}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{multicols}
+\end{document}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

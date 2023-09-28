@@ -1,0 +1,222 @@
+
+% ==============================================================================
+% emposter.sty
+% ==============================================================================
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% developed by J. Neggers, T.W.J. de Geus
+%% This package is free for use, but without any guarantee
+%% Contact T.W.J.d.Geus@tue.nl to report any bugs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{helvet}
+\RequirePackage{sfmath}
+\RequirePackage{eso-pic}
+\RequirePackage{color}
+\RequirePackage{graphicx}
+\RequirePackage[left=1.0cm,right=1.0cm,top=0.5cm,bottom=2.0cm]{geometry}
+\RequirePackage{calc}
+\RequirePackage{pgf}
+\RequirePackage{tikz}
+\RequirePackage{float}
+\RequirePackage{hyperref}
+
+% ==============================================================================
+% basic settings
+% ==============================================================================
+
+% hyperref settings
+% -----------------
+
+\hypersetup{colorlinks=true}
+\hypersetup{citecolor=black}
+\hypersetup{filecolor=black}
+\hypersetup{linkcolor=black}
+\hypersetup{urlcolor=black}
+
+% general layout
+% --------------
+
+% empty page
+\thispagestyle{empty}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% define colors
+\definecolor{3tuorange}{rgb}{0.925,0.475,0.000}
+\definecolor{EMgray}{rgb}{0.9255,0.9255,0.9255}
+% apply colors
+\newcommand{\postercolor}{\color{3tuorange}}
+\newcommand{\titlecolor}{\color{black}}
+
+% itemize settings
+% ----------------
+
+\renewcommand{\labelitemi}{\textcolor{3tuorange}{$\bullet$}}
+\renewcommand{\labelitemii}{\textcolor{3tuorange}{--}}
+\renewcommand{\labelitemiii}{\textcolor{3tuorange}{$\ast$}}
+\renewcommand{\labelitemiv}{\textcolor{3tuorange}{-}}
+
+% ==============================================================================
+% font settings
+% ==============================================================================
+
+% set font
+\renewcommand{\familydefault}{\sfdefault}
+% remove sections numbers
+\renewcommand{\@seccntformat}[1]{\relax}
+% set bibliography name
+\renewcommand{\refname}{References}
+% caption settings
+\newcommand{\captionfont}{\small\slshape}
+
+% ==============================================================================
+% make headers more compact
+% ==============================================================================
+
+\renewcommand{\section}{\@startsection{section}{1}{0pt}{-\baselineskip}{0.1pt}{\postercolor\normalsize\fontsize{12}{12pt}\selectfont}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0pt}{-\baselineskip}{0.1pt}{\color{black}\normalsize\fontsize{12}{12pt}\selectfont}}
+
+% ==============================================================================
+% apply the style
+% ==============================================================================
+
+% length settings
+% ---------------
+
+% general settings
+\newlength{\styleindent}\setlength{\styleindent}{10mm}
+\newlength{\stylewidth}\setlength{\stylewidth}{\paperwidth-2.\styleindent}
+
+% title
+\newlength{\titleheight}\setlength{\titleheight}{23mm}
+\newlength{\titlewidth}\setlength{\titlewidth}{140mm}
+\newlength{\titleskip}\setlength{\titleskip}{40mm-\titleheight}
+\newlength{\titlecenter}\setlength{\titlecenter}{121.37mm}
+\newlength{\titleauthor}\setlength{\titleauthor}{10mm}
+
+% body
+\newlength{\bodyheight}\setlength{\bodyheight}{238mm}
+
+% logos
+\newlength{\logoheight}\setlength{\logoheight}{11mm}
+\newlength{\logoskip}\setlength{\logoskip}{\bodyheight+\logoheight+1mm}
+
+% progress bar
+\newlength{\barwidth}\setlength{\barwidth}{50mm}
+\newlength{\barheight}\setlength{\barheight}{4mm}
+\newlength{\barskip}\setlength{\barskip}{\bodyheight+\logoheight}
+
+% define logo commands (in addition to 'title' and 'author')
+% ----------------------------------------------------------
+
+% affiliation (for title)
+\def\affiliation#1{\gdef\affiliation{#1}}
+% logos (for bottom bar)
+\def\university#1{\gdef\university{#1}}
+\def\rightlogo#1{\gdef\rightlogo{#1}}
+% progress settings
+\def\progresstype#1{\gdef\progresstype{#1}}
+\def\progresssections#1{\gdef\progresssections{#1}}
+\def\progressfraction#1{\gdef\progressfraction{#1}}
+
+% apply style through the maketitle command
+% -----------------------------------------
+
+\renewcommand{\maketitle}{%
+
+  % apply background
+  \makeatletter
+  \AddToShipoutPicture{%
+    \put(0,0){%
+      \includegraphics[width=\paperwidth]{embackground}
+    }%
+  }
+  \makeatother
+
+  % apply the title, author, and affiliations
+  \begin{pgfpicture}{\styleindent}{0mm}{\stylewidth}{\titleheight}%
+    % title
+    \pgfputat{\pgfpoint{\titlecenter}{\titleheight}}{%
+      \pgfbox[center,top]{\begin{minipage}[t]{\stylewidth}\centering\normalsize\fontsize{14pt}{15pt}\selectfont\titlecolor\textbf{\@title}\end{minipage}}%
+    }%
+    % author
+    \pgfputat{\pgfpoint{\titlecenter}{\titleauthor}}{%
+      \pgfbox[center,top]{\parbox[t]{\titlewidth}{\centering\normalsize\fontsize{12pt}{13pt}\selectfont\titlecolor\@author}}%
+    }%
+    % affiliation
+    \pgfputat{\pgfpoint{\titlecenter}{0mm}}{%
+      \pgfbox[center,top]{\parbox[t]{\titlewidth}{\centering\normalsize\selectfont\titlecolor\textit{\affiliation}}}%
+    }%
+  \end{pgfpicture}%
+
+  % go to the beginning of the text
+  \vspace*{\titleskip}%
+  % go to the bottom
+  \vspace*{\bodyheight}%
+
+  % apply the logos
+  \begin{pgfpicture}{\styleindent}{0mm}{\stylewidth}{\logoheight}%
+    % university logo
+    \pgfputat{\pgfpoint{0.5\styleindent}{0mm}}{%
+      \pgfbox[left,bottom]{\university}%
+    }%
+    % other logo's
+    \pgfputat{\pgfpoint{\paperwidth-0.5\styleindent}{0mm}}{%
+      \pgfbox[right,bottom]{\rightlogo}%
+    }%
+  \end{pgfpicture}
+
+  % apply the progress bar
+  % go the beginning of the text
+  \vspace*{-\logoskip}%
+  % go to the bottom
+  \vspace*{\bodyheight}%
+  \begin{pgfpicture}{\styleindent}{0mm}{\stylewidth}{\logoheight}%
+  % progress text
+  \pgftext[at=\pgfpoint{\paperwidth/2}{\barheight+0.5mm},center,bottom]{
+  \small\selectfont \progresstype~progress}
+   % background color
+   \color{EMgray}
+   \pgfrect[fill]{\pgfpoint{(\paperwidth-\barwidth)/2}{0cm}}{\pgfpoint{\barwidth}{\barheight}}
+   % progress bar
+   \color{3tuorange}
+   \pgfrect[fill]{\pgfpoint{(\paperwidth-\barwidth)/2}{0cm}}{\pgfpoint{\barwidth*\progressfraction}{\barheight}}
+   % surrounding black box
+   \color{black}
+   \pgfrect[stroke]{\pgfpoint{(\paperwidth-\barwidth)/2}{0cm}}{\pgfpoint{\barwidth}{\barheight}}
+   % print the section numbers
+   \color{black}
+   \foreach \n in {1,...,\progresssections}{
+    \pgftext[at=\pgfpoint{(\paperwidth-\barwidth)/2+(\n-0.5)*\barwidth/\progresssections}{\barheight/2},center,center]{ %
+     \n}
+   }
+   % print the section dividers
+   \foreach \n in {1,...,\progresssections}{
+    \pgfline{\pgfpoint{(\paperwidth-\barwidth)/2+\n*\barwidth/\progresssections}{0cm}}{\pgfpoint{(\paperwidth-\barwidth)/2+\n*\barwidth/\progresssections}{\barheight/4}}
+    \pgfline{\pgfpoint{(\paperwidth-\barwidth)/2+\n*\barwidth/\progresssections}{\barheight}}{\pgfpoint{(\paperwidth-\barwidth)/2+\n*\barwidth/\progresssections}{3*\barheight/4}}
+   }   
+   
+%   \pgfrect[stroke]{\pgfpoint{0cm}{0cm}}{\pgfpoint{9.2cm/4}{0.5cm}}
+%   \pgfrect[stroke]{\pgfpoint{9.2cm/4}{0cm}}{\pgfpoint{9.2cm/4}{0.5cm}}
+%   \pgfrect[stroke]{\pgfpoint{9.2cm/2}{0cm}}{\pgfpoint{9.2cm/4}{0.5cm}}
+%   \pgfrect[stroke]{\pgfpoint{9.2cm/2+9.2cm/4}{0cm}}{\pgfpoint{9.2cm/4}{0.5cm}}
+%   \pgftext[at=\pgfpoint{9.2cm/8}{0.25cm},center,center]{1}
+%   \pgftext[at=\pgfpoint{9.2cm/4+9.2cm/8}{0.25cm},center,center]{2}
+%   \pgftext[at=\pgfpoint{9.2cm/2+9.2cm/8}{0.25cm},center,center]{3}
+%   \pgftext[at=\pgfpoint{9.2cm/4+9.2cm/2+9.2cm/8}{0.25cm},center,center]{4}
+  \end{pgfpicture}
+
+  % go the beginning of the text
+  \vspace*{-\barskip}%
+
+  % draw a white box as background
+  \begin{pgfpicture}{\styleindent}{0mm}{\paperwidth}{\bodyheight}%
+    \color{white}
+    \pgfrect[fill]{\pgfpoint{0mm}{0mm}}{\pgfpoint{\paperwidth}{\bodyheight}}
+  \end{pgfpicture}%
+
+  % go the beginning of the text
+  \vspace*{-\bodyheight}%
+
+}% end maketitle
