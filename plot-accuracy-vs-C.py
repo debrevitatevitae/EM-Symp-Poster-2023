@@ -26,38 +26,25 @@ def main():
 
     # Add curves to the semilogx plot
     ax.semilogx(df['C'], df['acc_rbf_gamma1'],
-                linestyle='--', label='RBF, $\gamma$=1.0')
-    ax.semilogx(df['C'], df['acc_qek_0304'], label='qek0304, rand params')
-    ax.semilogx(df['C'], df['acc_qek_0316'], label='qek0316, rand params')
-    ax.semilogx(df['C'], df['acc_qek_0608'], label='qek0608, rand params')
-
-    ax.legend()
-    ax.grid()
-
-    # Save figure
-    fig.savefig(OUT_DIR+'acc-untrained.pdf')
-
-    # Set-up figure and axis for the trained curves (post-KTA)
-    fig, ax = plt.subplots()
-    ax.set_xlabel(r'$C$')
-    ax.set_ylabel(r'mean test accuracy')
-    ax.set_title(r"OHCP: cross-validation results post-KTA")
-
-    # Add curves to the semilogx plot
+                color='#0000EE', linestyle='--', label='RBF, $\gamma$=1.0')
+    ax.semilogx(df['C'], df['acc_qek_0304'], linestyle='--',
+                color='#FF0000', label='qek0304, rand params')
+    # ax.semilogx(df['C'], df['acc_qek_0316'], label='qek0316, rand params')
+    ax.semilogx(df['C'], df['acc_qek_0608'], linestyle='--',
+                color='#CD0000', label='qek0608, rand params')
     ax.semilogx(df['C'], df['acc_rbf_trained'],
-                linestyle='--', label='RBF, trained')
+                color='#0000EE', label='RBF, aligned')
     ax.semilogx(df['C'], df['acc_qek_0304_trained'],
-                label='qek0304, trained')
-    ax.semilogx(df['C'], df['acc_qek_0316_trained'],
-                label='qek0316, trained')
+                color='#FF0000', label='qek0304, aligned')
+    # ax.semilogx(df['C'], df['acc_qek_0316'], label='qek0316, rand params')
     ax.semilogx(df['C'], df['acc_qek_0608_trained'],
-                label='qek0608, trained')
+                color='#CD0000', label='qek0608, aligned')
 
     ax.legend()
     ax.grid()
 
     # Save figure
-    fig.savefig(OUT_DIR+'acc-trained.pdf')
+    fig.savefig(OUT_DIR+'cv-accuracy.pdf')
 
 
 if __name__ == '__main__':
